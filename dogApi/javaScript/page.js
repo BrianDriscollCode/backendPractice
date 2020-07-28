@@ -4,8 +4,13 @@ let item;
 
 addDoggies();
 
-doggiesButton.addEventListener('click', getDogImage(doggies.value));
+doggiesButton.addEventListener('click', function(){
+  getDogImage(doggiesSelect.value);
+});
 
+fetch('https://jsonplaceholder.typicode.com/todos/1')
+  .then(res => res.json())
+  .then(data => console.log(data))
 
 //fetch functions
 function addDoggies() {
@@ -19,11 +24,11 @@ function addDoggies() {
 }
 
 function getDogImage(breed) {
-  fetch(`https://dog.ceo/api/breed/${breed}/images`)
+  console.log(breed);
+  fetch(`https://dog.ceo/api/breed/${breed}/images/random`)
     .then(res => res.json())
     .then(data => {
-      console.log(data);
-      chooseImage(Object.keys(data));
+      chooseImage(data.message);
     })
 }
 
@@ -35,6 +40,7 @@ function generateOptions(data) {
   doggiesSelect.innerHTML = options;
 }
 
-function chooseImage(images) {
-
+function chooseImage(image) {
+  let dogDiv = document.getElementById('dogImage');
+  dogDiv.innerHTML = `<img src="${image}">`;
 }
